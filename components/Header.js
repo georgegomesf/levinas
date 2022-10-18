@@ -50,9 +50,8 @@ const Header = () => {
         <Toolbar disableGutters>          
           <Typography
             variant="h6"
-            noWrap
-            component="a"
-            href=""
+            noWrap            
+            onClick={()=>setSecao(null)}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -61,6 +60,7 @@ const Header = () => {
               letterSpacing: '.1rem',
               color: 'inherit',
               textDecoration: 'none',              
+              cursor: 'pointer'
             }}
           >
             Lévinas
@@ -90,7 +90,7 @@ const Header = () => {
                 horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
-              onClose={()=>handleCloseNavMenu(i.path)}
+              onClose={()=>handleCloseNavMenu()}
               sx={{
                 display: { xs: 'block', md: 'none' },
               }}
@@ -106,7 +106,7 @@ const Header = () => {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            onClick={()=>setSecao(null)}
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },

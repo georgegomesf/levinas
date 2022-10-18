@@ -77,6 +77,9 @@ const textos = async (req, res) => {
                     paginacao
                     idioma
                     published_at
+                    filosofo {
+                        filosofo_id
+                    }
                 }
             }`
         },setHeader()).catch(e=>console.log(e.response.data.errors))        

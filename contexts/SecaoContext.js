@@ -4,7 +4,7 @@ const SecaoContext = createContext();
 
 export function SecaoProvider({children}){
 
-    const [secao,setSecao] = useState('livros');
+    const [secao,setSecao] = useState();
 
     return (
         <SecaoContext.Provider value={{

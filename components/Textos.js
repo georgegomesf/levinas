@@ -64,12 +64,12 @@ const Textos = () => {
 
     return <Container sx={{display: 'flex', flexDirection: 'column', flexWrap: 'nowrap', justifyContent: 'center', alignItems: 'flex-start', padding: '2em'}}>
         <Backdrop
-            sx={{ color: '#000', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            sx={{ color: '#000', backgroundColor: 'rgba(0,0,0,0.2)', zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={load}
             >
             <CircularProgress color="inherit" />
         </Backdrop>
-        <Box sx={{color: "#000"}}>
+        <Box>
         Autoria:
             <ToggleButtonGroup
                 color="primary"

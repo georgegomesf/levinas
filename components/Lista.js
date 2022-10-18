@@ -54,17 +54,28 @@ const Lista = (props) => {
     const [load,setLoad] = useState(true);
 
     useEffect(()=>{
-
-        setLoad(true)
+                
         const getThumbs = async () => {          
           const { data } = await axios.post('/api/capas', { action: 'getImages', id: livros.map(i=>i.id), tipo: 'capas' }).catch(e=>console.log(e))          
-          setThumbs(data)
-          setLoad(false)          
+          setThumbs(data)          
+          setLoad(false)
         } 
         
         livros && getThumbs()
     
     },[livros])
+
+    useEffect(()=>{
+                
+        const getThumbs = async () => {          
+          const { data } = await axios.post('/api/capas', { action: 'getImages', id: textos.map(i=>i.filosofo.map(i=>i.filosofo_id)), tipo: 'autor' }).catch(e=>console.log(e))
+          setThumbs(data)          
+          setLoad(false)
+        } 
+        
+        textos && getThumbs()
+    
+    },[textos])
 
     useEffect(()=>{
         if(!file) return;
@@ -95,7 +106,7 @@ const Lista = (props) => {
         await tipo=='livro' ?
             axios.post('/api/livros', { action: 'defStatus', id: id, event: changedStatus, token: user && user.token }).catch(e=>console.log(e)) :
             axios.post('/api/textos', { action: 'defStatus', id: id, event: changedStatus, token: user && user.token }).catch(e=>console.log(e))
-    };
+    };    
 
     return <Box sx={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'left', alignItems: 'flex-start', padding: '2em', }}>
         <Backdrop
@@ -125,10 +136,10 @@ const Lista = (props) => {
         </Typography>
     </Box>)}
     { textos && textos.map((i,index) => <Box key={index} sx={{display: 'flex', flexDirection: 'row'}}>
-        <Card key={index} sx={{ maxHeight: 160, maxWidth: 120, color: '#000', backgroundColor: 'rgba(255,255,255,0.2)', margin: '1em', alignItems: 'center' }}>
+        <Card key={index} sx={{ height: 160, width: 120, color: '#000', backgroundColor: 'rgba(255,255,255,0.2)', margin: '1em', alignItems: 'center' }}>
             <CardActionArea onClick={()=>handleOpen(i.id)}><CardMedia
             component="img"
-            image={`https://books.google.com/books/content?id=${i.id_google}&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api`}
+            image={thumbs?.filter(f=>f.id==i.filosofo.map(i=>i.filosofo_id))[0] ? thumbs.filter(f=>f.id==i.filosofo.map(i=>i.filosofo_id)).map(i=>`https://firebasestorage.googleapis.com/v0/b/filodoc-af03f.appspot.com/o/autor%2F${i.id}.jpeg?alt=media&token=${i.token}`) : `https://books.google.com/books/content?id=${i.id_google}&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api`}
             alt={i.id}
             sx={{objectFit: "contain"}} 
             /></CardActionArea>
@@ -181,13 +192,13 @@ const Lista = (props) => {
                     </Typography>                                        
                 </Box>
                 
-                )}
+                )}                
                 { textos && textos.filter(f=>f.id==open).map((i,index) => <Box key={index} sx={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start'}}>
                     <Card key={index} sx={{ minWidth: 200, maxWidth: 200, height: 300, color: '#fff', backgroundColor: 'rgba(255,255,255,0.2)', margin: '1em'}}>
                         <CardMedia
                             component="img"
                             height="300"
-                            image={`https://books.google.com/books/content?id=${i.id_google}&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api`}
+                            image={thumbs?.filter(f=>f.id==i.filosofo.map(i=>i.filosofo_id))[0] ? thumbs.filter(f=>f.id==i.filosofo.map(i=>i.filosofo_id)).map(i=>`https://firebasestorage.googleapis.com/v0/b/filodoc-af03f.appspot.com/o/autor%2F${i.id}.jpeg?alt=media&token=${i.token}`) : `https://books.google.com/books/content?id=${i.id_google}&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api`}
                             alt={i.id}
                             sx={{objectFit: "contain"}} 
                             />
